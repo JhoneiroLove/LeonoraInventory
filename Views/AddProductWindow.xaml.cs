@@ -2,6 +2,7 @@
 using LeonoraInventory.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 
@@ -51,34 +52,85 @@ namespace LeonoraInventory.Views
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(NameBox.Text)
-             || CategoryBox.SelectedValue == null
-             || !int.TryParse(QtyBox.Text, out var qty)
-             || !int.TryParse(MinStockBox.Text, out var minStk)
-             || !decimal.TryParse(PriceBox.Text, out var priceBoleta)
-             || !double.TryParse(PercentBox.Text, out var pct)
-             || string.IsNullOrWhiteSpace(LocationBox.Text))
-            {
-                MessageBox.Show("Por favor, complete todos los campos correctamente.",
-                                "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+            if (!ValidarCampos())
                 return;
-            }
 
             using var db = new InventarioContext();
             var prod = new Producto
             {
                 Nombre = NameBox.Text.Trim(),
                 CategoriaId = (int)CategoryBox.SelectedValue,
-                Cantidad = qty,
-                StockMinimo = minStk,
-                PrecioBoleta = priceBoleta,
-                Porcentaje = pct,
+                Cantidad = int.Parse(QtyBox.Text.Trim()),
+                StockMinimo = int.Parse(MinStockBox.Text.Trim()),
+                PrecioBoleta = decimal.Parse(PriceBox.Text.Trim(), CultureInfo.InvariantCulture),
+                Porcentaje = double.Parse(PercentBox.Text.Trim(), CultureInfo.InvariantCulture),
                 Ubicacion = LocationBox.Text.Trim(),
                 Proveedor = SupplierBox.Text.Trim()
             };
             db.Productos.Add(prod);
             db.SaveChanges();
             DialogResult = true;
+        }
+
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(NameBox.Text))
+            {
+                MessageBox.Show("Por favor, ingresa el nombre del producto.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                NameBox.Focus();
+                return false;
+            }
+
+            if (CategoryBox.SelectedValue == null)
+            {
+                MessageBox.Show("Selecciona una categoría.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CategoryBox.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(QtyBox.Text.Trim(), out int cantidad) || cantidad < 0)
+            {
+                MessageBox.Show("Ingresa una cantidad válida (número entero positivo).", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                QtyBox.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(MinStockBox.Text.Trim(), out int stockMin) || stockMin < 0)
+            {
+                MessageBox.Show("Ingresa un stock mínimo válido (número entero positivo).", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MinStockBox.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(PriceBox.Text.Trim(), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal precioBoleta) || precioBoleta < 0)
+            {
+                MessageBox.Show("Ingresa un precio boleta válido (número decimal positivo).", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                PriceBox.Focus();
+                return false;
+            }
+
+            if (!double.TryParse(PercentBox.Text.Trim(), NumberStyles.Number, CultureInfo.InvariantCulture, out double porcentaje) || porcentaje < 0 || porcentaje > 100)
+            {
+                MessageBox.Show("Ingresa un porcentaje válido entre 0 y 100.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                PercentBox.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(SupplierBox.Text))
+            {
+                MessageBox.Show("Por favor, ingresa el proveedor.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                SupplierBox.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(LocationBox.Text))
+            {
+                MessageBox.Show("Por favor, ingresa la ubicación.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                LocationBox.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

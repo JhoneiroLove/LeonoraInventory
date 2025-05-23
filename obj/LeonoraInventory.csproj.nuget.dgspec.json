@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jhone\\source\\repos\\LeonoraInventary\\LeonoraInventory.csproj": {}
+    "C:\\Users\\Zahir\\OneDrive\\Documentos\\Repositorios\\LeonoraInventory\\LeonoraInventory.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jhone\\source\\repos\\LeonoraInventary\\LeonoraInventory.csproj": {
+    "C:\\Users\\Zahir\\OneDrive\\Documentos\\Repositorios\\LeonoraInventory\\LeonoraInventory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jhone\\source\\repos\\LeonoraInventary\\LeonoraInventory.csproj",
+        "projectUniqueName": "C:\\Users\\Zahir\\OneDrive\\Documentos\\Repositorios\\LeonoraInventory\\LeonoraInventory.csproj",
         "projectName": "LeonoraInventory",
-        "projectPath": "C:\\Users\\jhone\\source\\repos\\LeonoraInventary\\LeonoraInventory.csproj",
-        "packagesPath": "C:\\Users\\jhone\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jhone\\source\\repos\\LeonoraInventary\\obj\\",
+        "projectPath": "C:\\Users\\Zahir\\OneDrive\\Documentos\\Repositorios\\LeonoraInventory\\LeonoraInventory.csproj",
+        "packagesPath": "C:\\Users\\Zahir\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Zahir\\OneDrive\\Documentos\\Repositorios\\LeonoraInventory\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jhone\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Zahir\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -98,7 +98,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
