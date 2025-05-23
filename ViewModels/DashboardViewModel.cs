@@ -98,7 +98,7 @@ namespace LeonoraInventory.ViewModels
             RecentMovements = new ObservableCollection<RecentMovementViewModel>(movimientosRecientes);
 
             var todos = db.Productos.AsNoTracking().ToList();
-            InventoryValue = todos.Sum(p => p.PrecioPublico * p.Cantidad);
+            InventoryValue = todos.Sum(p => p.PrecioCosto);
 
             // Traer todos los movimientos para cálculos
             var movimientos = db.Movimientos.AsNoTracking().ToList();
