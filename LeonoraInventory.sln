@@ -5,8 +5,6 @@ VisualStudioVersion = 17.14.36119.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeonoraInventory", "LeonoraInventory.csproj", "{9BA3668B-24FF-4B7A-A79E-ADD9F6B8B2CB}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LeonoraInventoryInstaller", "..\LeonoraInventoryInstaller\LeonoraInventoryInstaller.vdproj", "{8B6D4D78-0DD1-C6B5-B9EF-F9C372467655}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,8 +15,6 @@ Global
 		{9BA3668B-24FF-4B7A-A79E-ADD9F6B8B2CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BA3668B-24FF-4B7A-A79E-ADD9F6B8B2CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BA3668B-24FF-4B7A-A79E-ADD9F6B8B2CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B6D4D78-0DD1-C6B5-B9EF-F9C372467655}.Debug|Any CPU.ActiveCfg = Debug
-		{8B6D4D78-0DD1-C6B5-B9EF-F9C372467655}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
