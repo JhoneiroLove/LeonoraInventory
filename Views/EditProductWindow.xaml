@@ -1,0 +1,78 @@
+﻿<Window x:Class="LeonoraInventory.Views.EditProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Editar Producto"
+        Height="480" Width="430"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#F8FAFC">
+    <Border Background="White" CornerRadius="10" Padding="18">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Editar producto" FontSize="20" FontWeight="Bold" Foreground="#2D3748" Margin="0,0,0,12" />
+
+            <StackPanel Grid.Row="1" Margin="0,8,0,0" VerticalAlignment="Top">
+                <!-- Igual estructura que AddProductWindow, pero con nombres distintos para Bindings -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Nombre:" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="NameBox" MinWidth="200"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Categoría:" Width="120" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="CategoryBox" MinWidth="200" DisplayMemberPath="Nombre" SelectedValuePath="CategoriaId"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Cantidad:" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="QtyBox" MinWidth="200"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Stock Mínimo:" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="MinStockBox" MinWidth="200"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Precio Boleta (S/):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PriceBox" MinWidth="200" TextChanged="PriceBox_TextChanged"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Porcentaje (%):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PercentBox" MinWidth="200" TextChanged="PercentBox_TextChanged"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Precio Costo (S/):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CostoBox" MinWidth="200" IsReadOnly="True" Background="#F1F5F9"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Precio Público (S/):" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PublicoBox" MinWidth="200" IsReadOnly="True" Background="#F1F5F9"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Proveedor:" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="SupplierBox" MinWidth="200"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock Text="Ubicación:" Width="120" VerticalAlignment="Center"/>
+                    <TextBox x:Name="LocationBox" MinWidth="200"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                <Button Content="Cancelar" Click="Cancel_Click" Width="90" Margin="0,0,8,0"/>
+                <Button Content="Guardar Cambios" Click="Save_Click" Width="130" Background="#222" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

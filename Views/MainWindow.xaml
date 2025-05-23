@@ -1,0 +1,124 @@
+﻿<Window x:Class="LeonoraInventory.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:LeonoraInventory.ViewModels"
+        xmlns:views="clr-namespace:LeonoraInventory.Views"
+        Title="InvenTrack" Height="800" Width="1200"
+        Background="#F0F4F8"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <views:DashboardView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:InventoryViewModel}">
+            <views:InventoryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CategoryViewModel}">
+            <views:CategoryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MovementViewModel}">
+            <views:MovementView/>
+        </DataTemplate>
+
+        <!-- Estilo implícito para ListBoxItem -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="12 8"/>
+            <Setter Property="Margin" Value="0 4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#3B82F6"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#BFDBFE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Sombra suave para tarjetas -->
+        <DropShadowEffect x:Key="CardShadow"
+                          Color="#000000"
+                          Opacity="0.1"
+                          BlurRadius="8"
+                          ShadowDepth="2"/>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <!-- Sidebar -->
+        <Border DockPanel.Dock="Left" Width="220" Background="White" 
+                BorderBrush="#DDD" BorderThickness="0,0,1,0" >
+            <StackPanel>
+                <!-- Logo o título pequeño -->
+                <TextBlock Text="InvenTrack" FontWeight="Bold" FontSize="20" 
+                           Margin="16" Foreground="#1E40AF"/>
+                <!-- Menú -->
+                <ListBox ItemsSource="{Binding MenuItems}"
+                         SelectedItem="{Binding SelectedMenuItem}"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         Margin="0 8 0 0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Cursor="Hand">
+                                <TextBlock Text="{Binding Icon}" FontSize="16" Margin="0,0,8,0"/>
+                                <TextBlock Text="{Binding Title}" FontSize="14"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <DockPanel>
+            <!-- Header superior -->
+            <Border DockPanel.Dock="Top" Background="White" Height="56" 
+                    BorderBrush="#DDD" BorderThickness="0,0,0,1"
+                    Padding="16" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Título dinámico de la vista actual -->
+                    <TextBlock Text="{Binding SelectedMenuItem.Title}" 
+                               FontSize="22" FontWeight="Bold" VerticalAlignment="Center" Foreground="#1E293B"/>
+
+                    <!-- Ejemplo botones en header (perfil/logout) -->
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" Margin="0" >
+                        <Button Content="⚙" Width="32" Height="32" FontSize="16" Background="Transparent" BorderThickness="0" ToolTip="Configuración" Margin="0,0,8,0"/>
+                        <Button Content="👤" Width="32" Height="32" FontSize="16" Background="Transparent" BorderThickness="0" ToolTip="Perfil"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Contenido dinámico -->
+            <Border Background="White" Margin="24" CornerRadius="12" Padding="16" 
+                    Effect="{StaticResource CardShadow}">
+                <ContentControl Content="{Binding CurrentView}"/>
+            </Border>
+        </DockPanel>
+    </DockPanel>
+</Window>

@@ -1,0 +1,279 @@
+﻿<UserControl x:Class="LeonoraInventory.Views.InventoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#F3F6F9"
+             xmlns:local="clr-namespace:LeonoraInventory.Views">
+    <UserControl.Resources>
+        <!-- Sombra suave para tarjetas -->
+        <DropShadowEffect x:Key="CardShadow"
+                          Color="#000000"
+                          Opacity="0.1"
+                          BlurRadius="8"
+                          ShadowDepth="2"/>
+
+        <!-- Watermark Style para el buscador -->
+        <Style x:Key="WatermarkTextBox" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                            <TextBlock x:Name="Watermark"
+                                       Text="Buscar en inventario..."
+                                       Foreground="#888"
+                                       FontStyle="Italic"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       IsHitTestVisible="False"
+                                       Visibility="Collapsed"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="Watermark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Watermark" Property="Foreground" Value="#CCC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Iconos vectoriales para botones de acción -->
+        <Geometry x:Key="EditIconGeometry">M3,17.25 L3,21 L6.75,21 L17.81,9.94 L14.06,6.19 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 Z</Geometry>
+        <Geometry x:Key="DeleteIconGeometry">M16 9v10H8V9h8m-1.5-6H9.5l-1 1H5v2h14V4h-3.5l-1-1z</Geometry>
+
+        <!-- Estilo botón acción -->
+        <Style TargetType="Button" x:Key="ActionButtonStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#DDD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E0E0E0"/>
+                                <Setter Property="BorderBrush" Value="#888"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#C8C8C8"/>
+                                <Setter Property="BorderBrush" Value="#666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- TopBar -->
+            <RowDefinition Height="Auto"/>
+            <!-- Search -->
+            <RowDefinition Height="*"/>
+            <!-- DataGrid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Pagination -->
+        </Grid.RowDefinitions>
+
+        <!-- TOP BAR: Título y botones -->
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,12">
+            <!-- Título -->
+            <TextBlock Text="Inventario"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#222"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left"/>
+            <!-- Botones superiores alineados derecha -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        DockPanel.Dock="Right"
+                        Margin="0,0,0,0">
+                <Button Content="Exportar Excel"
+                        Command="{Binding ExportCommand}"
+                        Margin="0,0,8,0"
+                        Padding="18,6"
+                        Background="White"
+                        BorderBrush="#DDD"
+                        BorderThickness="1"
+                        Effect="{StaticResource CardShadow}"/>
+                <Button Content="Agregar Producto"
+                        Command="{Binding AddProductCommand}"
+                        Padding="18,6"
+                        Background="#222"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        BorderThickness="0"
+                        Effect="{StaticResource CardShadow}"/>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- BUSCADOR -->
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="8"
+                Padding="8"
+                Margin="0,0,0,16"
+                Effect="{StaticResource CardShadow}">
+            <Grid>
+                <TextBox Style="{StaticResource WatermarkTextBox}"
+                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="14"
+                         Foreground="#555"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         VerticalContentAlignment="Center"
+                         Padding="4"/>
+            </Grid>
+        </Border>
+
+        <!-- TABLA DE PRODUCTOS MEJORADA -->
+        <Border Grid.Row="2"
+                Background="White"
+                CornerRadius="8"
+                Padding="0"
+                Margin="0,0,0,16"
+                Effect="{StaticResource CardShadow}">
+            <DataGrid ItemsSource="{Binding PagedProducts}"
+                      AutoGenerateColumns="False"
+                      HeadersVisibility="Column"
+                      CanUserAddRows="False"
+                      CanUserResizeRows="False"
+                      IsReadOnly="True"
+                      RowBackground="White"
+                      AlternatingRowBackground="#FAFAFA"
+                      GridLinesVisibility="None"
+                      BorderThickness="0"
+                      Margin="0"
+                      ColumnHeaderHeight="36"
+                      RowHeight="48"
+                      FontSize="15"
+                      FontFamily="Segoe UI"
+                      CanUserResizeColumns="False"
+                      CanUserReorderColumns="False"
+                      CanUserSortColumns="False">
+                <DataGrid.Resources>
+                    <!-- Estilo para cabeceras -->
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#F5F5F7"/>
+                        <Setter Property="Foreground" Value="#222"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="BorderBrush" Value="#E4E4E7"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       MaxWidth="150"  
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Padding="0,0,0,2"/>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <!-- Estilo para filas seleccionadas -->
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="#111"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#E3F2FD"/>
+                                <Setter Property="Foreground" Value="#0D47A1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="PRODUCTO" Binding="{Binding Nombre}" Width="2*" MinWidth="120"/>
+                    <DataGridTextColumn Header="CATEGORÍA" Binding="{Binding Categoria}" Width="2*" MinWidth="140"/>
+                    <DataGridTextColumn Header="CANTIDAD" Binding="{Binding Cantidad}" Width="Auto" MinWidth="80"/>
+                    <DataGridTextColumn Header="PRECIO PÚBLICO" Binding="{Binding PrecioPublico}" Width="Auto" MinWidth="110"/>
+                    <DataGridTextColumn Header="PRECIO COSTO" Binding="{Binding PrecioCosto}" Width="Auto" MinWidth="110"/>
+                    <DataGridTextColumn Header="PRECIO BOLETA" Binding="{Binding PrecioBoleta}" Width="Auto" MinWidth="110"/>
+                    <DataGridTextColumn Header="PORCENTAJE" Binding="{Binding Porcentaje}" Width="Auto" MinWidth="100"/>
+                    <DataGridTextColumn Header="PROVEEDOR" Binding="{Binding Proveedor}" Width="*" MinWidth="130"/>
+                    <DataGridTextColumn Header="UBICACIÓN" Binding="{Binding Ubicacion}" Width="*" MinWidth="130"/>
+                    <!-- Estado con badge visual -->
+                    <DataGridTemplateColumn Header="ESTADO" Width="Auto" MinWidth="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Padding="10,3"
+                                        CornerRadius="12"
+                                        HorizontalAlignment="Center"
+                                        Background="{Binding EstadoBrush}">
+                                    <TextBlock Text="{Binding EstadoText}"
+                                               Foreground="White"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!-- ACCIONES con iconos personalizados -->
+                    <DataGridTemplateColumn Header="ACCIONES" Width="100" MinWidth="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0">
+                                    <Button ToolTip="Editar producto"
+                                            Command="{Binding EditCommand}"
+                                            Style="{StaticResource ActionButtonStyle}"
+                                            Margin="0,0,8,0">
+                                        <Path Data="{StaticResource EditIconGeometry}" Fill="#333" Width="16" Height="16" Stretch="Uniform"/>
+                                    </Button>
+                                    <Button ToolTip="Eliminar producto"
+                                            Command="{Binding DeleteCommand}"
+                                            Style="{StaticResource ActionButtonStyle}">
+                                        <Path Data="{StaticResource DeleteIconGeometry}" Fill="#B22222" Width="16" Height="16" Stretch="Uniform"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- PAGINACIÓN -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,16">
+            <Button Content="« Anterior"
+                    Command="{Binding PrevPageCommand}"
+                    Margin="4,0"
+                    Padding="10,3"/>
+            <TextBlock Text="{Binding PaginationText}"
+                       VerticalAlignment="Center"
+                       Margin="8,0"/>
+            <Button Content="Siguiente »"
+                    Command="{Binding NextPageCommand}"
+                    Margin="4,0"
+                    Padding="10,3"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
