@@ -93,26 +93,6 @@
 
         <DockPanel>
             <!-- Header superior -->
-            <Border DockPanel.Dock="Top" Background="White" Height="56" 
-                    BorderBrush="#DDD" BorderThickness="0,0,0,1"
-                    Padding="16" >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Título dinámico de la vista actual -->
-                    <TextBlock Text="{Binding SelectedMenuItem.Title}" 
-                               FontSize="22" FontWeight="Bold" VerticalAlignment="Center" Foreground="#1E293B"/>
-
-                    <!-- Ejemplo botones en header (perfil/logout) -->
-                    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center" Margin="0" >
-                        <Button Content="⚙" Width="32" Height="32" FontSize="16" Background="Transparent" BorderThickness="0" ToolTip="Configuración" Margin="0,0,8,0"/>
-                        <Button Content="👤" Width="32" Height="32" FontSize="16" Background="Transparent" BorderThickness="0" ToolTip="Perfil"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
 
             <!-- Contenido dinámico -->
             <Border Background="White" Margin="24" CornerRadius="12" Padding="16" 

@@ -11,6 +11,12 @@
                           BlurRadius="8"
                           ShadowDepth="2"/>
 
+        <!-- Estilo para centrar texto en DataGridTextColumn -->
+        <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        
         <!-- Watermark Style para el buscador -->
         <Style x:Key="WatermarkTextBox" TargetType="TextBox">
             <Setter Property="Template">
@@ -19,7 +25,7 @@
                         <Grid>
                             <ScrollViewer x:Name="PART_ContentHost"/>
                             <TextBlock x:Name="Watermark"
-                                       Text="Buscar en inventario..."
+                                       Text="Buscar en inventario por nombre de producto..."
                                        Foreground="#888"
                                        FontStyle="Italic"
                                        Margin="8,0,0,0"
@@ -159,8 +165,9 @@
                       IsReadOnly="True"
                       RowBackground="White"
                       AlternatingRowBackground="#FAFAFA"
-                      GridLinesVisibility="None"
-                      BorderThickness="0"
+                      GridLinesVisibility="None" 
+                      BorderThickness="1"
+                      BorderBrush="#DDD" 
                       Margin="0"
                       ColumnHeaderHeight="36"
                       RowHeight="48"
@@ -176,7 +183,7 @@
                         <Setter Property="Foreground" Value="#222"/>
                         <Setter Property="FontWeight" Value="SemiBold"/>
                         <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                        <Setter Property="BorderBrush" Value="#E4E4E7"/>
+                        <Setter Property="BorderBrush" Value="#DDD"/>
                         <Setter Property="Padding" Value="8,6"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -195,6 +202,12 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
+                    <!-- Estilo para celda  -->
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                        <Setter Property="BorderBrush" Value="#DDD"/>
+                    </Style>
+                    
                     <!-- Estilo para filas seleccionadas -->
                     <Style TargetType="DataGridRow">
                         <Setter Property="Background" Value="White"/>
@@ -208,26 +221,28 @@
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="PRODUCTO" Binding="{Binding Nombre}" Width="2*" MinWidth="120"/>
-                    <DataGridTextColumn Header="CATEGORÍA" Binding="{Binding Categoria}" Width="2*" MinWidth="140"/>
-                    <DataGridTextColumn Header="CANTIDAD" Binding="{Binding Cantidad}" Width="Auto" MinWidth="80"/>
-                    <DataGridTextColumn Header="PRECIO PÚBLICO" Binding="{Binding PrecioPublico}" Width="Auto" MinWidth="110"/>
-                    <DataGridTextColumn Header="PRECIO COSTO" Binding="{Binding PrecioCosto}" Width="Auto" MinWidth="110"/>
-                    <DataGridTextColumn Header="PRECIO BOLETA" Binding="{Binding PrecioBoleta}" Width="Auto" MinWidth="110"/>
-                    <DataGridTextColumn Header="PORCENTAJE" Binding="{Binding Porcentaje}" Width="Auto" MinWidth="100"/>
-                    <DataGridTextColumn Header="PROVEEDOR" Binding="{Binding Proveedor}" Width="*" MinWidth="130"/>
-                    <DataGridTextColumn Header="UBICACIÓN" Binding="{Binding Ubicacion}" Width="*" MinWidth="130"/>
+                    <DataGridTextColumn Header="PRODUCTO" Binding="{Binding Nombre}" Width="2*" MinWidth="120" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="CATEGORÍA" Binding="{Binding Categoria}" Width="2*" MinWidth="140" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="CANTIDAD" Binding="{Binding Cantidad}" Width="Auto" MinWidth="80" ElementStyle="{StaticResource CenteredCellStyle}" />
+                    <DataGridTextColumn Header="PRECIO PÚBLICO" Binding="{Binding PrecioPublico}" Width="Auto" MinWidth="110" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="PRECIO COSTO" Binding="{Binding PrecioCosto}" Width="Auto" MinWidth="110" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="PRECIO BOLETA" Binding="{Binding PrecioBoleta}" Width="Auto" MinWidth="110" ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="PORCENTAJE" Binding="{Binding Porcentaje}" Width="Auto" MinWidth="100"  ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="PROVEEDOR" Binding="{Binding Proveedor}" Width="*" MinWidth="130"  ElementStyle="{StaticResource CenteredCellStyle}"/>
+                    <DataGridTextColumn Header="UBICACIÓN" Binding="{Binding Ubicacion}" Width="*" MinWidth="130"  ElementStyle="{StaticResource CenteredCellStyle}"/>
                     <!-- Estado con badge visual -->
                     <DataGridTemplateColumn Header="ESTADO" Width="Auto" MinWidth="90">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Border Padding="10,3"
+                                <Border Height="24" 
+                                        Padding="6,2"
                                         CornerRadius="12"
                                         HorizontalAlignment="Center"
                                         Background="{Binding EstadoBrush}">
                                     <TextBlock Text="{Binding EstadoText}"
                                                Foreground="White"
                                                FontWeight="SemiBold"
+                                               FontSize="12"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Center"/>
                                 </Border>
